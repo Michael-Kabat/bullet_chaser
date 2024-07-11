@@ -1,6 +1,7 @@
 # Example file showing a circle moving on screen
 import pygame
 from Apple import Apple
+from Ghost import Ghost
 
 # pygame setup
 pygame.init()
@@ -10,6 +11,7 @@ running = True
 dt = 0
 
 apple_list: list[Apple] = []
+ghost_list : list[Ghost] = []
 score = 0
 radius = 40
 player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
@@ -41,9 +43,20 @@ while running:
     if keys[pygame.K_d]:
         player_pos.x += 300 * dt
     
+
+    # spawning ghost
+    if pygame.key.get_pressed()[pygame.K_1]:
+        ghost_list.append(Ghost(pygame, screen, 30, "blue", 10))
+
+    for ghost in ghost_list:
+        ghost.draw_ghost()
+        ghost.chase(player_pos)
+
     # spawning apples
     if pygame.key.get_pressed()[pygame.K_SPACE]:
         apple_list.append(Apple(pygame, screen, screen.get_width(), screen.get_height(), 15))
+
+
 
     for apple in apple_list:
             apple.draw_apple()
