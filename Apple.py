@@ -1,10 +1,14 @@
 import random
 
 class Apple:
-    def __init__(self, width, height) -> None:
-        self.pos_x = random.randrange(width)
-        self.pos_y = random.randrange(height)
-        self.color = "red"
+    def __init__(self, pygame, screen, width, height, radius) -> None:
+        self.pygame = pygame
+        self.screen = screen
+        self.pos = pygame.Vector2(random.randrange(width), random.randrange(height))
+        self.radius = radius
+        self.color = "dark red"
+        self.state = True
+        
     
-    def spawn_apple(self):
-        print(f"x = {self.pos_x} y = {self.pos_y}")
+    def draw_apple(self):
+        self.pygame.draw.circle(self.screen, self.color, self.pos, self.radius)

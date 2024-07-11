@@ -9,9 +9,14 @@ clock = pygame.time.Clock()
 running = True
 dt = 0
 
+apple_list: list[Apple] = []
+score = 0
 radius = 40
 player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
 font = pygame.font.Font('freesansbold.ttf', 28)
+
+
+
 
 while running:
     # poll for events
@@ -24,7 +29,7 @@ while running:
     screen.fill("dark grey")
 
     pygame.draw.circle(screen, "yellow", player_pos, radius)
-
+    
     # player movement  
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
@@ -36,11 +41,32 @@ while running:
     if keys[pygame.K_d]:
         player_pos.x += 300 * dt
     
-    # spawning apples d
+    # spawning apples
     if pygame.key.get_pressed()[pygame.K_SPACE]:
+        apple_list.append(Apple(pygame, screen, screen.get_width(), screen.get_height(), 15))
 
-        Apple.spawn_apple(screen.get_width(), screen.get_height())
+    for apple in apple_list:
+            apple.draw_apple()
+            # collision detection 
+            if player_pos.distance_to(apple.pos) < radius + apple.radius:
+                apple.state = False
+  
+    for apple in apple_list:
+        if not apple.state:
+            apple_list.remove(apple)
+            score += 1
+
+    
+
+    # display score 
+
+    score_text = font.render(str(score), True, (0, 0, 0))
+    score_rect = score_text.get_rect()
+    score_rect.center = (screen.get_width() / 2, 28)
+    screen.blit(score_text, score_rect)
+
     # display FPS 
+    
     text = font.render(str(int(clock.get_fps())), True, (0, 0, 0))
     textRect = text.get_rect()
     textRect.center = (screen.get_width() - 20, 20)
