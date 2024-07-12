@@ -3,6 +3,11 @@ import pygame
 from Apple import Apple
 from Ghost import Ghost
 
+def check_collisions(player_pos:pygame.Vector2, other):
+    if player_pos.distance_to(other.pos) < radius + other.radius:
+        return True
+    return False
+
 # pygame setup
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
@@ -51,6 +56,11 @@ while running:
     for ghost in ghost_list:
         ghost.draw_ghost()
         ghost.chase(player_pos, 60)
+        ghost.state = check_collisions(player_pos, ghost)
+        if ghost.state:
+            print("game over")
+            ghost_list.remove(ghost)
+    
 
     # spawning apples
     if pygame.key.get_pressed()[pygame.K_SPACE]:
@@ -61,11 +71,11 @@ while running:
     for apple in apple_list:
             apple.draw_apple()
             # collision detection 
-            if player_pos.distance_to(apple.pos) < radius + apple.radius:
-                apple.state = False
+            apple.state = check_collisions(player_pos, apple)
+            
   
     for apple in apple_list:
-        if not apple.state:
+        if apple.state:
             apple_list.remove(apple)
             score += 1
 
