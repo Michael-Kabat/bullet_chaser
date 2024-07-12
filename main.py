@@ -50,7 +50,7 @@ while running:
 
     for ghost in ghost_list:
         ghost.draw_ghost()
-        ghost.chase(player_pos)
+        ghost.chase(player_pos, 60)
 
     # spawning apples
     if pygame.key.get_pressed()[pygame.K_SPACE]:
