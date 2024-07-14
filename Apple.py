@@ -1,13 +1,18 @@
 import random
+from pygame import Vector2
 
 class Apple:
     def __init__(self, pygame, screen, width, height, radius) -> None:
         self.pygame = pygame
         self.screen = screen
-        self.pos = pygame.Vector2(random.randrange(width), random.randrange(height))
         self.radius = radius
         self.color = "dark red"
         self.state = True
+
+        self.pos = Vector2(random.randint(self.radius, width - self.radius), 
+                           random.randint(self.radius, height - self.radius))
+        
+
         
     
     def draw_apple(self):
