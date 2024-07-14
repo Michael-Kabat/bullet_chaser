@@ -38,6 +38,7 @@ while running:
     pygame.draw.circle(screen, "yellow", player_pos, radius)
     
     # player movement  
+
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
         player_pos.y -= 300 * dt
@@ -49,25 +50,34 @@ while running:
         player_pos.x += 300 * dt
     
 
-    # spawning ghost
+    # spawning ghosts
+
     if pygame.key.get_pressed()[pygame.K_1]:
-        ghost_list.append(Ghost(pygame, screen, 30, "blue", 10))
+        ghost_list.append(Ghost(pygame, screen, 30, "blue", 2))
 
     for ghost in ghost_list:
         ghost.draw_ghost()
-        ghost.chase(player_pos, 60)
+        # ghost.chase(player_pos, 60)
+        ghost.move()
         ghost.state = check_collisions(player_pos, ghost)
         if ghost.state:
             print("game over")
             ghost_list.remove(ghost)
     
+    # ghost boundries 
+    for i in range(len(ghost_list)):
+        for j in range(len(ghost_list)):
+            ghost_list[i].ghost_boundries(ghost_list[j])
+    
+
+
 
     # spawning apples
     if pygame.key.get_pressed()[pygame.K_SPACE]:
         apple_list.append(Apple(pygame, screen, screen.get_width(), screen.get_height(), 15))
 
 
-
+    
     for apple in apple_list:
             apple.draw_apple()
             # collision detection 
