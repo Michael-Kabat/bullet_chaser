@@ -25,7 +25,7 @@ class Game:
     apple_dict : dict[int, Apple] = dict()
     
     radius = 35
-
+    difficulty = 200
     player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
     font = pygame.font.Font('freesansbold.ttf', 28)
 
@@ -41,25 +41,62 @@ class Game:
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_down = True
-        
+
+        screen.fill("dark grey")
+
+        if STATE == "OPTIONS":
+            pygame.mouse.set_visible(True)
+            mouse = pygame.mouse.get_pos()
+            color = "dark red"
+            
+
+            
+            print(f"x : {mouse[0]} y: {mouse[1]}")
+            # EASY
+            # if (mouse[0] > screen.get_width() / 2 - 70) and mouse[0] < screen.get_width() / 2 + 70:
+            #     if (mouse[1] > (screen.get_height() / 2) - 50) and ((mouse[1] < screen.get_height() / 2 - 5)):
+            #         color = "red"
+                
+            #         if mouse_down:
+            #             STATE = 'RUNNING'
+            #             difficulty = 200
+            #             ghost_list = []
+            #             apple_list = []
+            #             SCORE = 0
+            #             player.pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
+            #             mouse_down = False
+
+
+            # easy_button = pygame.draw.rect(screen, color, [screen.get_width()/2 - 70,screen.get_height()/2 - 45 ,140,40])
+            # text = font.render("EASY", True, (0, 0, 0))
+            # textRect = text.get_rect()
+            
+            # textRect.center = (screen.get_width()/2,screen.get_height()/2 - 22.5)
+            # screen.blit(text, textRect)
+    
+
+            # MEDIUM
+
+            # medium_button = pygame.draw.rect(screen, color, [screen.get_width()/2 - 70,screen.get_height()/2,140,40])
+            # text2 = font.render("Medium", True, (0, 0, 0))
+            # textRect2 = text2.get_rect()
+            
+            # textRect2.center = (screen.get_width()/2,screen.get_height()/2)
+            # screen.blit(text2, textRect2)
+
+            # HARD
+
         if STATE == "MENU":
             pygame.mouse.set_visible(True)
             mouse = pygame.mouse.get_pos()
             color = "grey"
             
-
             if (mouse[0] > screen.get_width() / 2 - 70) and mouse[0] < screen.get_width() / 2 + 70:
                 if mouse[1] > screen.get_height() / 2 and mouse[1] < screen.get_height() / 2 + 40:
                     color = "light grey"
                 
                     if mouse_down:
-                        STATE = 'RUNNING'
-                        ghost_list = []
-                        apple_list = []
-                        SCORE = 0
-                        player.pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
-                        mouse_down = False
-                        
+                        STATE = 'OPTIONS'                        
 
             retry_button = pygame.draw.rect(screen, color, [screen.get_width()/2 - 70,screen.get_height()/2,140,40])
             text = font.render("Play", True, (0, 0, 0))
@@ -70,7 +107,7 @@ class Game:
 
         if STATE == 'RUNNING':
         # fill the screen with a color to wipe away anything from last frame
-            screen.fill("dark grey")
+            
 
             # hide the mouse
             pygame.mouse.set_visible(False)
@@ -95,9 +132,6 @@ class Game:
                     STATE = 'GAME OVER'
             
 
-            
-            # ghost wall boundries 
-            
             # spawning apples
             
             if len(apple_list) < 5:
@@ -109,24 +143,12 @@ class Game:
                     if apple.state:
                         apple_list.remove(apple)
                         SCORE += 1
-
-            # if len(apple_dict) < 5:
-            #     i = 0
-            #     while len(apple_dict) < 5:
-            #         apple_dict[i] = Apple(pygame, screen, screen.get_width(), screen.get_height(), 15)
-            #         i += 1
-
-            # for key in apple_dict:
-            #         apple_dict[key].draw_apple()
-            #         if player.check_collisions(apple_dict[key]):
-            #             apple_dict.pop(key)
-            #             SCORE += 1
             
         
 
             # Spawning ghosts 
             if len(ghost_list) <= SCORE / 5:
-                ghost_list.append(Ghost( screen, 20, "blue", 200))
+                ghost_list.append(Ghost( screen, 20, "blue", difficulty))
 
             # display score 
 
