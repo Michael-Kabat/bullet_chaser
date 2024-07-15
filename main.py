@@ -2,7 +2,7 @@ import pygame
 from Apple import Apple
 from Ghost import Ghost
 from Player import Player
-
+from Button import Button
 
 STATE = 'MENU'
 SCORE = 0
@@ -12,7 +12,15 @@ class Game:
     # pygame setup
     def __init__(self):
         pass
-
+    
+    def reset_game_state(self):
+        # ghost_list = []
+        # apple_list = []
+        # SCORE = 0
+        # player.pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
+        # mouse_down = False
+        pass
+    
     pygame.init()
     screen = pygame.display.set_mode((1280, 720))
     clock = pygame.time.Clock()
@@ -23,6 +31,11 @@ class Game:
     ghost_list : list[Ghost] = []
 
     apple_dict : dict[int, Apple] = dict()
+    
+    easy_color = "dark red"
+    medium_color = "dark red"
+    hard_color = "dark red"
+    diff_color = "grey"
     
     radius = 35
     difficulty = 200
@@ -47,44 +60,57 @@ class Game:
         if STATE == "OPTIONS":
             pygame.mouse.set_visible(True)
             mouse = pygame.mouse.get_pos()
-            color = "dark red"
-            
 
-            
-            print(f"x : {mouse[0]} y: {mouse[1]}")
             # EASY
-            # if (mouse[0] > screen.get_width() / 2 - 70) and mouse[0] < screen.get_width() / 2 + 70:
-            #     if (mouse[1] > (screen.get_height() / 2) - 50) and ((mouse[1] < screen.get_height() / 2 - 5)):
-            #         color = "red"
-                
-            #         if mouse_down:
-            #             STATE = 'RUNNING'
-            #             difficulty = 200
-            #             ghost_list = []
-            #             apple_list = []
-            #             SCORE = 0
-            #             player.pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
-            #             mouse_down = False
 
-
-            # easy_button = pygame.draw.rect(screen, color, [screen.get_width()/2 - 70,screen.get_height()/2 - 45 ,140,40])
-            # text = font.render("EASY", True, (0, 0, 0))
-            # textRect = text.get_rect()
             
-            # textRect.center = (screen.get_width()/2,screen.get_height()/2 - 22.5)
-            # screen.blit(text, textRect)
-    
+            easy_button = Button(screen, (screen.get_width() / 2, screen.get_height() / 2 - 50), 140, 40, font, easy_color)
+            easy_button.draw("EASY")
+            if easy_button.click():
+                easy_color = "red"
+                if mouse_down:
+                    STATE = "RUNNING"
+                    ghost_list = []
+                    apple_list = []
+                    SCORE = 0
+                    player.pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
+                    mouse_down = False
+                    difficulty = 200
+            else:
+                easy_color = "dark red"
+                    
 
             # MEDIUM
-
-            # medium_button = pygame.draw.rect(screen, color, [screen.get_width()/2 - 70,screen.get_height()/2,140,40])
-            # text2 = font.render("Medium", True, (0, 0, 0))
-            # textRect2 = text2.get_rect()
-            
-            # textRect2.center = (screen.get_width()/2,screen.get_height()/2)
-            # screen.blit(text2, textRect2)
-
+            medium_button = Button(screen, (screen.get_width() / 2, screen.get_height() / 2), 140, 40, font, medium_color)
+            medium_button.draw("MEDIUM")
+            if medium_button.click():
+                medium_color = "red"
+                if mouse_down:
+                    STATE = "RUNNING"
+                    ghost_list = []
+                    apple_list = []
+                    SCORE = 0
+                    player.pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
+                    mouse_down = False
+                    difficulty = 300
+                    
+            else:
+                medium_color = "dark red"
             # HARD
+            hard_button = Button(screen, (screen.get_width() / 2, screen.get_height() / 2 + 50), 140, 40, font, hard_color)
+            hard_button.draw("HARD")
+            if hard_button.click():
+                hard_color = "red"
+                if mouse_down:
+                    STATE = "RUNNING"
+                    ghost_list = []
+                    apple_list = []
+                    SCORE = 0
+                    player.pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
+                    mouse_down = False
+                    difficulty = 400
+            else:
+                hard_color = "dark red"
 
         if STATE == "MENU":
             pygame.mouse.set_visible(True)
@@ -108,7 +134,6 @@ class Game:
         if STATE == 'RUNNING':
         # fill the screen with a color to wipe away anything from last frame
             
-
             # hide the mouse
             pygame.mouse.set_visible(False)
             
@@ -127,6 +152,7 @@ class Game:
                 player.draw()
 
                 ghost.ghost_boundries()
+                #print(str(ghost.pos) + str(ghost.w) + str(ghost.h) + " Width: " + str(screen.get_width()) + " Height: "+ str(screen.get_height()))
 
                 if ghost.state:
                     STATE = 'GAME OVER'
@@ -147,14 +173,18 @@ class Game:
         
 
             # Spawning ghosts 
+            
             if len(ghost_list) <= SCORE / 5:
-                ghost_list.append(Ghost( screen, 20, "blue", difficulty))
+                # TODO make bubble around player so they dont get instantly killed
+
+                ghost_list.append(Ghost(screen, 20, "blue", difficulty))
 
             # display score 
 
             score_text = font.render(str(SCORE), True, (0, 0, 0))
             score_rect = score_text.get_rect()
             score_rect.center = (screen.get_width() / 2, 28)
+            
             screen.blit(score_text, score_rect)
 
             # display FPS 
@@ -196,6 +226,15 @@ class Game:
             
             textRect.center = (screen.get_width()/2,screen.get_height()/2 + 20)
             screen.blit(text, textRect)
+
+            change_difficulty_button = Button(screen, (screen.get_width() / 2, screen.get_height() / 2 - 25), 140, 40, font, diff_color)
+            change_difficulty_button.draw("Difficulty")
+            if change_difficulty_button.click():
+                diff_color = "light grey"
+                if mouse_down:
+                    STATE = "OPTIONS"
+            else:
+                diff_color = "grey"
 
         # flip() the display to put your work on screen  
         #  
