@@ -124,11 +124,9 @@ class Game:
                 pygame.mouse.set_visible(False)
                 
                 # player control 
-
                 player.move(dt)
 
-                # spawning ghosts
-                                
+                # spawning ghosts             
                 for ghost in self.ghost_list:
                     ghost.state = player.check_collisions(ghost)
                     ghost.draw_ghost()
@@ -137,15 +135,14 @@ class Game:
                     # player movement  
                     player.draw()
 
+                    # ghost edge collision
                     ghost.ghost_boundries()
-                    #print(str(ghost.pos) + str(ghost.w) + str(ghost.h) + " Width: " + str(screen.get_width()) + " Height: "+ str(screen.get_height()))
-
+                   
                     if ghost.state:
                         self.state = 'GAME OVER'
                 
 
                 # spawning apples
-                
                 if len(self.apple_list) < 5:
                     self.apple_list.append(Apple(pygame, self.screen, self.screen.get_width(), self.screen.get_height(), 15))
 
@@ -156,17 +153,13 @@ class Game:
                             self.apple_list.remove(apple)
                             self.score += 1
                 
-            
 
                 # Spawning ghosts 
-                
                 if len(self.ghost_list) <= self.score / 5:
                     # TODO make bubble around player so they dont get instantly killed
-
                     self.ghost_list.append(Ghost(self.screen, 20, "blue", self.difficulty))
 
                 # display score 
-
                 score_text = font.render(str(self.score), True, (0, 0, 0))
                 score_rect = score_text.get_rect()
                 score_rect.center = (self.screen.get_width() / 2, 28)
@@ -174,7 +167,6 @@ class Game:
                 self.screen.blit(score_text, score_rect)
 
                 # display FPS 
-                
                 text = font.render("FPS: " + str(int(self.clock.get_fps())), True, (0, 0, 0))
                 textRect = text.get_rect()
                 

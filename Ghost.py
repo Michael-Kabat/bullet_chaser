@@ -13,12 +13,11 @@ class Ghost:
         self.pos : Vector2 = pygame.Vector2(random.randint(self.radius * 2, self.screen.get_width() - self.radius * 2), 
                                             random.randint(self.radius * 2, self.screen.get_height() - self.radius * 2))
 
-
     # def chase(self, player_pos:Vector2, framerate):
     #     dx = (self.pos.x - player_pos.x) / framerate
     #     dy = (self.pos.y - player_pos.y) / framerate
     #     self.pos -= self.pygame.Vector2(dx, dy).normalize() * self.speed
-
+    
     def ghost_boundries(self):
         if self.pos.x < self.radius or self.pos.x > self.screen.get_width() - self.radius:
             self.velocity.x *= -1
