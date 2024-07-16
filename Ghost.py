@@ -10,7 +10,8 @@ class Ghost:
         self.color = color
         self.state = False
         self.velocity : Vector2 = Vector2(random.randint(-speed, speed), random.randint(-speed, speed))
-        self.pos : Vector2 = pygame.Vector2(random.randint(0, self.screen.get_width()), random.randint(0, self.screen.get_height()))
+        self.pos : Vector2 = pygame.Vector2(random.randint(self.radius * 2, self.screen.get_width() - self.radius * 2), 
+                                            random.randint(self.radius * 2, self.screen.get_height() - self.radius * 2))
 
 
     # def chase(self, player_pos:Vector2, framerate):

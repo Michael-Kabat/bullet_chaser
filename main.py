@@ -26,18 +26,17 @@ class Game:
         self.apple_list = []
         self.score = 0
         self.mouse_down = False
-        self.radius = 35
-        
-        
 
+        
+    
     def play(self):
         self.screen = pygame.display.set_mode((1280, 720))
-        player = Player(self.screen, self.radius, 375)
+        player = Player(self.screen, 30, 375)
         font = pygame.font.Font('freesansbold.ttf', 28)
         easy_color = "dark red"
         medium_color = "dark red"
         hard_color = "dark red"
-        diff_color = "grey"
+        difficulty_color = "grey"
         dt = 0
 
         while self.running:
@@ -214,14 +213,14 @@ class Game:
                 self.screen.blit(text, textRect)
 
                 change_difficulty_button = Button(self.screen, (self.screen.get_width() / 2, self.screen.get_height() / 2 - 25), 
-                                                  140, 40, font, diff_color)
+                                                  140, 40, font, difficulty_color)
                 change_difficulty_button.draw("Difficulty")
                 if change_difficulty_button.click():
-                    diff_color = "light grey"
+                    difficulty_color = "light grey"
                     if self.mouse_down:
                         self.state = "OPTIONS"
                 else:
-                    diff_color = "grey"
+                    difficulty_color = "grey"
 
         # flip() the display to put your work on screen  
             pygame.display.flip()
