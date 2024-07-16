@@ -9,6 +9,8 @@ class Player:
         self.color = "dark green"
         self.radius = radius
         self.speed : float|int = speed
+        self.width = self.screen.get_width()
+        self.height = self.screen.get_height()
     
     def draw(self):
         pygame.draw.circle(self.screen, self.color, self.pos, self.radius)
@@ -20,11 +22,11 @@ class Player:
     
     def move(self, dt):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_w]:
+        if keys[pygame.K_w] and (self.pos.y - (self.speed * dt) > self.radius):
             self.pos.y -= self.speed * dt
-        if keys[pygame.K_s]:
+        if keys[pygame.K_s] and (self.pos.y + (self.speed * dt) < self.height - self.radius):
             self.pos.y += self.speed * dt
-        if keys[pygame.K_a]:
+        if keys[pygame.K_a] and (self.pos.x - (self.speed * dt) > self.radius):
             self.pos.x -= self.speed * dt
-        if keys[pygame.K_d]:
+        if keys[pygame.K_d] and (self.pos.x + (self.speed * dt) < self.width - self.radius):
             self.pos.x += self.speed * dt

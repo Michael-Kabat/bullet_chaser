@@ -27,7 +27,6 @@ class Game:
         self.score = 0
         self.mouse_down = False
 
-        
     
     def play(self):
         self.screen = pygame.display.set_mode((1280, 720))
