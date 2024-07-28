@@ -4,15 +4,29 @@ import random
 
 class Ghost:
 
-    def __init__(self, screen, radius, color, speed) -> None:
+    def __init__(self, screen, radius, color, speed, player_pos) -> None:
         self.screen : pygame.display = screen
         self.radius = radius
         self.color = color
         self.state = False
         self.velocity : Vector2 = Vector2(random.randint(-speed, speed), random.randint(-speed, speed))
-        self.pos : Vector2 = pygame.Vector2(random.randint(self.radius * 2, self.screen.get_width() - self.radius * 2), 
-                                            random.randint(self.radius * 2, self.screen.get_height() - self.radius * 2))
-
+        rand_x = self.random_exclusion(self.radius * 2, self.screen.get_width() - self.radius * 2, 
+                                       [x for x in range(int(player_pos.x - 50), int(player_pos.x + 50))])
+        
+        rand_y = self.random_exclusion(self.radius * 2, self.screen.get_height() - self.radius * 2, 
+                                        [x for x in range(int(player_pos.y - 50), int(player_pos.y + 50))])
+                                        
+        self.pos : Vector2 = pygame.Vector2(rand_x, rand_y)
+        
+    def random_exclusion(self, start, stop, excluded) -> int:
+        excluded = set(excluded)
+        value = random.randint(start, stop - len(excluded))
+        for exclusion in tuple(excluded):
+            if value < exclusion:
+                break
+            value += 1
+        return value
+    
     # def chase(self, player_pos:Vector2, framerate):
     #     dx = (self.pos.x - player_pos.x) / framerate
     #     dy = (self.pos.y - player_pos.y) / framerate

@@ -19,8 +19,18 @@ class Game:
         self.running = True
         self.state = "MENU"
         self.clock = pygame.time.Clock()
+        self.hard = 600
+        self.medium = 450
+        self.easy = 300
         
         
+    # def spawn_ghost(self, player_pos):
+    #     
+    #     ghost = Ghost(self.screen, 20, "blue", self.difficulty)
+    #     if (ghost.pos.x - player_pos.x < 25) and (ghost.pos.y - player_pos.y < 25):
+            
+
+
     def setup_and_reset(self):
         self.ghost_list = []
         self.apple_list = []
@@ -64,7 +74,7 @@ class Game:
                         self.setup_and_reset()
                         self.state = "RUNNING"
                         player.pos = pygame.Vector2(self.screen.get_width() / 2, self.screen.get_height() / 2)
-                        self.difficulty = 200
+                        self.difficulty = self.easy
                 else:
                     easy_color = "dark red"
                         
@@ -79,7 +89,7 @@ class Game:
                         self.state = "RUNNING"
                         self.setup_and_reset()
                         player.pos = pygame.Vector2(self.screen.get_width() / 2, self.screen.get_height() / 2)
-                        self.difficulty = 300
+                        self.difficulty = self.medium
                         
                 else:
                     medium_color = "dark red"
@@ -93,7 +103,7 @@ class Game:
                         self.state = "RUNNING"
                         self.setup_and_reset()
                         player.pos = pygame.Vector2(self.screen.get_width() / 2, self.screen.get_height() / 2)
-                        self.difficulty = 400
+                        self.difficulty = self.hard
                 else:
                     hard_color = "dark red"
 
@@ -155,9 +165,10 @@ class Game:
                 
 
                 # Spawning ghosts 
-                if len(self.ghost_list) <= self.score / 5:
-                    # TODO make bubble around player so they dont get instantly killed
-                    self.ghost_list.append(Ghost(self.screen, 20, "blue", self.difficulty))
+                if len(self.ghost_list) <= self.score / 3:
+
+                # if pygame.key.get_pressed()[pygame.K_1]:
+                    self.ghost_list.append(Ghost(self.screen, 20, "blue", self.difficulty, player.pos))
 
                 # display score 
                 score_text = font.render(str(self.score), True, (0, 0, 0))
