@@ -24,11 +24,6 @@ class Game:
         self.easy = 300
         
         
-    # def spawn_ghost(self, player_pos):
-    #     
-    #     ghost = Ghost(self.screen, 20, "blue", self.difficulty)
-    #     if (ghost.pos.x - player_pos.x < 25) and (ghost.pos.y - player_pos.y < 25):
-            
 
 
     def setup_and_reset(self):
@@ -231,5 +226,4 @@ class Game:
 
 
 game = Game()
-game.setup_and_reset()
 game.play()
