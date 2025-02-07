@@ -3,6 +3,7 @@ from Apple import Apple
 from Ghost import Ghost
 from Player import Player
 from Button import Button
+import asyncio
 
 
 
@@ -33,7 +34,7 @@ class Game:
         self.mouse_down = False
 
     
-    def play(self):
+    async def play(self):
         self.screen = pygame.display.set_mode((1280, 720))
         player = Player(self.screen, 30, 375)
         font = pygame.font.Font('freesansbold.ttf', 28)
@@ -44,6 +45,8 @@ class Game:
         dt = 0
 
         while self.running:
+    
+            
             # poll for events
             # pygame.QUIT event means the user clicked X to close your window
             self.mouse_down = False
@@ -218,12 +221,11 @@ class Game:
                         self.state = "OPTIONS"
                 else:
                     difficulty_color = "grey"
-
+            await asyncio.sleep(0)
         # flip() the display to put your work on screen  
             pygame.display.flip()
 
         pygame.quit()
 
-
 game = Game()
-game.play()
+asyncio.run(game.play())
